@@ -1,0 +1,225 @@
+import org.ajoberstar.gradle.git.release.opinion.Strategies
+import org.ajoberstar.grgit.Grgit
+
+buildscript {
+    repositories {
+        mavenLocal()
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.5'
+        classpath 'org.ajoberstar:gradle-git:1.4.0-rc.1'
+    }
+}
+
+apply plugin: 'org.ajoberstar.release-base'
+release {
+    grgit = Grgit.open()
+    versionStrategy Strategies.FINAL
+    versionStrategy Strategies.PRE_RELEASE
+    defaultVersionStrategy Strategies.SNAPSHOT
+}
+
+apply plugin: 'java'
+apply plugin: 'groovy'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+apply plugin: 'maven'
+apply plugin: 'maven-publish'
+apply plugin: 'com.jfrog.bintray'
+
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
+group = 'net.serenity-bdd'
+
+repositories {
+    mavenLocal()
+    jcenter()
+    maven {
+        url 'http://dl.bintray.com/serenity/maven/'
+    }
+}
+
+ext {
+    bintrayBaseUrl = 'https://api.bintray.com/maven'
+    bintrayRepository = 'maven'
+    bintrayPackage = 'serenity-cli'
+    projectDescription = 'Serenity CLI'
+    groovyVersion = '2.4.4'
+    junitVersion = '4.12'
+
+    if (!project.hasProperty("bintrayUsername")) {
+        bintrayUsername = 'wakaleo'
+    }
+    if (!project.hasProperty("bintrayApiKey")) {
+        bintrayApiKey = ''
+    }
+    serenityCoreVersion = '1.1.36'
+
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.10'
+}
+
+test {
+    include '**/When*'
+    maxParallelForks = Runtime.runtime.availableProcessors()
+    testLogging {
+        exceptionFormat = 'full'
+//        showStandardStreams = true
+    }
+}
+
+jar {
+    println "Publishing $project.name:$project.group:$project.version"
+
+    manifest {
+        attributes("Implementation-Title": "Serenity CLI Plugin",
+                "Implementation-Version": project.version.toString())
+    }
+}
+
+task sourcesJar(type: Jar, dependsOn: classes) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives sourcesJar, javadocJar
+}
+
+configurations.all {
+    resolutionStrategy {
+        failOnVersionConflict()
+    }
+}
+
+dependencies {
+    compile("net.serenity-bdd:serenity-core:${project.serenityCoreVersion}")
+    compile 'args4j:args4j:2.33'
+    compile ("ch.qos.logback:logback-classic:1.1.7") {
+        exclude group: "org.slf4j"
+    }
+
+    testCompile 'org.assertj:assertj-core:1.7.1'
+}
+
+publishing {
+    publications {
+        shadow(MavenPublication) {
+           from components.shadow
+        }
+        mavenJava(MavenPublication) {
+
+            println "Publishing $project.name:$project.group:$project.version"
+
+            from components.java
+
+            artifact sourcesJar {
+                classifier "sources"
+            }
+
+            artifact javadocJar {
+                classifier "javadoc"
+            }
+
+            pom.withXml {
+                asNode().children().last() + {
+                    resolveStrategy = Closure.DELEGATE_FIRST
+                    name "$project.name"
+                    description "$projectDescription"
+
+                    url 'https://github.com/serenity-bdd/$project.name'
+                    scm {
+                        url 'scm:git:git@github.com:serenity-bdd/$project.name.git'
+                        connection 'scm:git:git@github.com:serenity-bdd/$project.name.git'
+                        developerConnection 'scm:git:git@github.com:serenity-bdd/$project.name.git'
+                    }
+                    licenses {
+                        license {
+                            name 'The Apache Software License, Version 2.0'
+                            url 'http://www.apache.org/license/LICENSE-2.0.txt'
+                            distribution 'repo'
+                        }
+                    }
+                    developers {
+                        developer {
+                            id 'johnsmart'
+                            name 'John Ferguson Smart'
+                            email 'john.smart@wakaleo.com'
+                        }
+                    }
+                }
+                // Preserve compile-scope dependencies
+                asNode().dependencies.'*'.findAll() {
+                    it.scope.text() == 'runtime' && project.configurations.compile.allDependencies.find { dep ->
+                        dep.name == it.artifactId.text()
+                    }
+                }.each() {
+                    it.scope*.value = 'compile'
+                }
+            }
+        }
+    }
+}
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            pom.artifactId = 'serenity-cli'
+            pom.project {
+                name = project.name
+                description = projectDescription
+                licenses {
+                    license {
+                        name 'The Apache Software License, Version 2.0'
+                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                        distribution 'repo'
+                    }
+                }
+                url 'https://github.com/serenity-bdd/$project.name'
+                scm {
+                    url 'scm:git:git@github.com:serenity-bdd/$project.name.git'
+                    connection 'scm:git:git@github.com:serenity-bdd/$project.name.git'
+                    developerConnection 'scm:git:git@github.com:serenity-bdd/$project.name.git'
+                }
+                licenses {
+                    license {
+                        name 'The Apache Software License, Version 2.0'
+                        url 'http://www.apache.org/license/LICENSE-2.0.txt'
+                        distribution 'repo'
+                    }
+                }
+                developers {
+                    developer {
+                        id 'johnsmart'
+                        name 'John Ferguson Smart'
+                        email 'john.smart@wakaleo.com'
+                    }
+                }
+            }
+            repository(url: bintrayBaseUrl + '/serenity/maven/serenity-cli') {
+                authentication(userName: bintrayUsername, password: bintrayApiKey)
+            }
+        }
+    }
+}
+
+if (JavaVersion.current().isJava8Compatible()) {
+    allprojects {
+        tasks.withType(Javadoc) {
+            options.addStringOption('Xdoclint:none', '-quiet')
+        }
+    }
+}
+
+task copyDeps(type: Copy) {
+    from configurations.runtime + configurations.testCompile
+    into project.projectDir.path+"/lib"
+}
