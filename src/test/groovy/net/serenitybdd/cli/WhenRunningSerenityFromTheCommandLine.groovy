@@ -48,7 +48,7 @@ class WhenRunningSerenityFromTheCommandLine extends Specification {
                 "-destination", outputDirectory.toAbsolutePath().toString(),
                 "-project foo")
         then:
-        outputDirectory.resolve("index.html").text.contains("foo")
+        outputDirectory.resolve("index.html").toFile().text.contains("foo")
     }
 
 }

@@ -9,6 +9,7 @@ buildscript {
     dependencies {
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.5'
         classpath 'org.ajoberstar:gradle-git:1.4.0-rc.1'
+        classpath 'com.github.jengelman.gradle.plugins:shadow:1.2.3'
     }
 }
 
@@ -27,6 +28,7 @@ apply plugin: 'idea'
 apply plugin: 'maven'
 apply plugin: 'maven-publish'
 apply plugin: 'com.jfrog.bintray'
+apply plugin: 'com.github.johnrengelman.shadow'
 
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
@@ -97,6 +99,7 @@ artifacts {
 configurations.all {
     resolutionStrategy {
         failOnVersionConflict()
+        force 'commons-collections:commons-collections:3.2.2'
     }
 }
 
@@ -108,6 +111,11 @@ dependencies {
     }
 
     testCompile 'org.assertj:assertj-core:1.7.1'
+    testCompile('org.spockframework:spock-core:1.0-groovy-2.4') {
+            exclude group: "junit"
+            exclude group:"org.codehaus.groovy", module: "groovy-all"
+
+    }
 }
 
 publishing {
