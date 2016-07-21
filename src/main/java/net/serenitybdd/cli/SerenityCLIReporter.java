@@ -1,5 +1,6 @@
 package net.serenitybdd.cli;
 
+import net.serenitybdd.plugins.jira.JiraFileServiceUpdater;
 import net.thucydides.core.reports.html.HtmlAggregateStoryReporter;
 
 import java.io.IOException;
@@ -51,6 +52,8 @@ public class SerenityCLIReporter {
             reporter.setJiraUsername(jiraUsername);
             reporter.setJiraPassword(jiraPassword);
             reporter.generateReportsForTestResultsFrom(sourceDirectory.toFile());
+
+            new JiraFileServiceUpdater().updateJiraForTestResultsFrom(sourceDirectory.toAbsolutePath().toString());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
