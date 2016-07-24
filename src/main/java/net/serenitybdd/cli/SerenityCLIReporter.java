@@ -1,11 +1,14 @@
 package net.serenitybdd.cli;
 
-import net.serenitybdd.plugins.jira.JiraFileServiceUpdater;
+import net.serenitybdd.core.SerenitySystemProperties;
+import net.thucydides.core.ThucydidesSystemProperty;
+import net.thucydides.core.reports.JiraUpdaterService;
 import net.thucydides.core.reports.html.HtmlAggregateStoryReporter;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ServiceLoader;
 
 public class SerenityCLIReporter {
 
@@ -18,6 +21,7 @@ public class SerenityCLIReporter {
     private final String jiraUsername;
     private final String jiraPassword;
 
+
     public SerenityCLIReporter(Path sourceDirectory,
                                Path destinationDirectory,
                                String project,
@@ -25,7 +29,9 @@ public class SerenityCLIReporter {
                                String jiraUrl,
                                String jiraProject,
                                String jiraUsername,
-                               String jiraPassword) {
+                               String jiraPassword,
+                               String jiraWorkflowActive,
+                               String jiraWorkflow) {
         this.sourceDirectory = sourceDirectory;
         this.destinationDirectory = destinationDirectory;
         this.issueTrackerUrl = issueTrackerUrl;
@@ -34,6 +40,12 @@ public class SerenityCLIReporter {
         this.jiraUsername = jiraUsername;
         this.jiraPassword = jiraPassword;
         this.project = project;
+        if(jiraWorkflow != null) {
+            SerenitySystemProperties.getProperties().setValue(ThucydidesSystemProperty.SERENITY_JIRA_WORKFLOW, jiraWorkflow);
+        }
+        if(jiraWorkflowActive != null) {
+            SerenitySystemProperties.getProperties().setValue(ThucydidesSystemProperty.SERENITY_JIRA_WORKFLOW_ACTIVE, jiraWorkflowActive);
+        }
     }
 
     public void execute() {
@@ -53,7 +65,10 @@ public class SerenityCLIReporter {
             reporter.setJiraPassword(jiraPassword);
             reporter.generateReportsForTestResultsFrom(sourceDirectory.toFile());
 
-            new JiraFileServiceUpdater().updateJiraForTestResultsFrom(sourceDirectory.toAbsolutePath().toString());
+            Iterable<JiraUpdaterService> jiraUpdaterServices = ServiceLoader.load(JiraUpdaterService.class);
+            for(JiraUpdaterService jiraUpdaterService: jiraUpdaterServices) {
+                jiraUpdaterService.updateJiraForTestResultsFrom(sourceDirectory.toAbsolutePath().toString());
+            }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

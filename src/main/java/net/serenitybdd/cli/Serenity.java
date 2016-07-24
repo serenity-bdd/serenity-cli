@@ -56,6 +56,14 @@ public class Serenity {
             metaVar="<string>")
     String jiraPassword;
 
+    @Option(name="-jiraWorkflow",
+            metaVar="<string>")
+    String jiraWorkflow;
+
+    @Option(name="-jiraWorkflowActive",
+            metaVar="<string>")
+    String jiraWorkflowActive;
+
     private final PrintWriter printWriter;
 
 
@@ -91,7 +99,7 @@ public class Serenity {
 
         SerenityCLIReporter reporter = new SerenityCLIReporter(source,
                                                                destination,
-                Optional.fromNullable(project).or(workingDirectoryName()), issueTrackerUrl, jiraUrl, jiraProject, jiraUsername, jiraPassword);
+                Optional.fromNullable(project).or(workingDirectoryName()), issueTrackerUrl, jiraUrl, jiraProject, jiraUsername, jiraPassword, jiraWorkflowActive, jiraWorkflow);
 
         reporter.execute();
 
