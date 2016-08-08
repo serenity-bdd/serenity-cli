@@ -5,8 +5,6 @@ import spock.lang.Specification
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
-
-
 /**
  * Created by john on 22/06/2016.
  */
@@ -32,10 +30,26 @@ class WhenRunningSerenityFromTheCommandLine extends Specification {
         assert outputDirectory.toFile().list().length == 0
 
         when:
-        new Serenity().executeWith("-source", sourceDirectory.toAbsolutePath().toString(),
-                "-destination", outputDirectory.toAbsolutePath().toString())
+        new Serenity().executeWith("--source", sourceDirectory.toAbsolutePath().toString(),
+                "--destination", outputDirectory.toAbsolutePath().toString())
         then:
         outputDirectory.toFile().list()
+    }
+
+    def EXPECTED_HTML_OUTCOME = "02b74472aa1afb4d598628e3654604db.html"
+
+    def "should generate html test reports in the output directory"() {
+        given:
+        Path sourceDirectory = Paths.get("src/test/resources/test-outcomes")
+        assert outputDirectory.toFile().list().length == 0
+
+        when:
+        new Serenity().executeWith("--source", sourceDirectory.toAbsolutePath().toString(),
+                "--destination", outputDirectory.toAbsolutePath().toString())
+        then:
+        assert outputDirectory.toFile().list().any {
+            it -> it.endsWith(EXPECTED_HTML_OUTCOME)
+        }
     }
 
     def "should be able to provide a project name"() {
@@ -44,11 +58,43 @@ class WhenRunningSerenityFromTheCommandLine extends Specification {
         assert outputDirectory.toFile().list().length == 0
 
         when:
-        new Serenity().executeWith("-source", sourceDirectory.toAbsolutePath().toString(),
-                "-destination", outputDirectory.toAbsolutePath().toString(),
-                "-project foo")
+        new Serenity().executeWith("--source", sourceDirectory.toAbsolutePath().toString(),
+                "--destination", outputDirectory.toAbsolutePath().toString(),
+                "--project foo")
         then:
         outputDirectory.resolve("index.html").toFile().text.contains("foo")
+    }
+
+    def "should generate requirements test reports in the output directory"() {
+        given:
+        Path sourceDirectory = Paths.get("src/test/resources/test-outcomes")
+        Path featureDirectory = Paths.get("src/test/resources/js_features")
+        assert outputDirectory.toFile().list().length == 0
+
+        when:
+        new Serenity().executeWith("--source", sourceDirectory.toAbsolutePath().toString(),
+                "--destination", outputDirectory.toAbsolutePath().toString(),
+                "--features", featureDirectory.toAbsolutePath().toString()
+        )
+        then:
+        outputDirectory.resolve("capabilities.html").toFile().exists()
+        outputDirectory.resolve("capabilities.html").toFile().text.contains("Maintain my todo list")
+        outputDirectory.resolve("capabilities.html").toFile().text.contains("Record todos")
+    }
+
+    def "should copy report resources to the output directory"() {
+        given:
+        Path sourceDirectory = Paths.get("src/test/resources/test-outcomes")
+        assert outputDirectory.toFile().list().length == 0
+
+        when:
+        new Serenity().executeWith("--source", sourceDirectory.toAbsolutePath().toString(),
+                "--destination", outputDirectory.toAbsolutePath().toString())
+        then:
+        Path jqplotCss = Paths.get(outputDirectory.toFile().absolutePath, "jqplot/1.0.8/jquery.jqplot.min.css")
+        Path jqplotJS = Paths.get(outputDirectory.toFile().absolutePath, "jqplot/1.0.8/jquery.jqplot.min.js")
+
+        jqplotCss.toFile().exists() && jqplotJS.toFile().exists()
     }
 
 }

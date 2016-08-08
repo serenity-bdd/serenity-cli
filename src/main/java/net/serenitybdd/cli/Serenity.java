@@ -15,54 +15,59 @@ public class Serenity {
     private static final String DEFAULT_SOURCE_DIRECTORY = "target/site/serenity";
     private static final String DEFAULT_DESTINATION_DIRECTORY = "target/site/serenity";
 
-    @Option(name="-help",usage="print this message")
+    @Option(name = "--help", usage = "print this message")
     private boolean help;
 
-    @Option(name="-source",
-            usage="Source directory containing the Serenity JSON output files",
-            metaVar="<directory>")
+    @Option(name = "--source",
+            usage = "Source directory containing the Serenity JSON output files",
+            metaVar = "<directory>")
     Path source = Paths.get("target/site/serenity");
 
-    @Option(name="-destination",
-            usage="Directory directory to contain the generated Serenity report",
-            metaVar="<directory>")
+    @Option(name = "--destination",
+            usage = "Directory directory to contain the generated Serenity report",
+            metaVar = "<directory>")
     Path destination = Paths.get("target/site/serenity");
 
-    @Option(name="-project",
-            usage="Project name to appear in the Serenity reports (defaults to the directory name",
-            metaVar="<string>")
+    @Option(name = "--project",
+            usage = "Project name to appear in the Serenity reports (defaults to the directory name",
+            metaVar = "<string>")
     String project;
 
-    @Option(name="-issueTrackerUrl",
-            usage="Base URL for issue trackers other than JIRA",
-            metaVar="<string>")
+    @Option(name = "--issueTrackerUrl",
+            usage = "Base URL for issue trackers other than JIRA",
+            metaVar = "<string>")
     String issueTrackerUrl;
 
-    @Option(name="-jiraUrl",
-            usage="Base URL for JIRA",
-            metaVar="<string>")
+    @Option(name = "--jiraUrl",
+            usage = "Base URL for JIRA",
+            metaVar = "<string>")
     String jiraUrl;
 
-    @Option(name="-jiraProject",
-            usage="Default project for JIRA",
-            metaVar="<string>")
+    @Option(name = "--jiraProject",
+            usage = "Default project for JIRA",
+            metaVar = "<string>")
     String jiraProject;
 
-    @Option(name="-jiraUsername",
-            metaVar="<string>")
+    @Option(name = "--jiraUsername",
+            metaVar = "<string>")
     String jiraUsername;
 
-    @Option(name="-jiraPassword",
-            metaVar="<string>")
+    @Option(name = "--jiraPassword",
+            metaVar = "<string>")
     String jiraPassword;
 
-    @Option(name="-jiraWorkflow",
-            metaVar="<string>")
+    @Option(name = "-jiraWorkflow",
+            metaVar = "<string>")
     String jiraWorkflow;
 
-    @Option(name="-jiraWorkflowActive",
-            metaVar="<string>")
+    @Option(name = "-jiraWorkflowActive",
+            metaVar = "<string>")
     String jiraWorkflowActive;
+
+    @Option(name = "--features",
+            usage = "Source directory containing the feature files",
+            metaVar = "<directory>")
+    Path requirementsDirectory = Paths.get("src/test/resources/features");
 
     private final PrintWriter printWriter;
 
@@ -87,7 +92,7 @@ public class Serenity {
 
             parser.parseArgument(args);
 
-        } catch( CmdLineException e ) {
+        } catch (CmdLineException e) {
             printUsage(parser);
             return;
         }
@@ -97,9 +102,12 @@ public class Serenity {
             return;
         }
 
-        SerenityCLIReporter reporter = new SerenityCLIReporter(source,
-                                                               destination,
-                Optional.fromNullable(project).or(workingDirectoryName()), issueTrackerUrl, jiraUrl, jiraProject, jiraUsername, jiraPassword, jiraWorkflowActive, jiraWorkflow);
+        SerenityCLIReportCoordinator reporter = new SerenityCLIReportCoordinator(source,
+                destination,
+                Optional.fromNullable(project).or(workingDirectoryName()),
+                issueTrackerUrl,
+                jiraUrl, jiraProject, jiraUsername, jiraPassword, jiraWorkflowActive, jiraWorkflow,
+                requirementsDirectory.toAbsolutePath().toFile().toString());
 
         reporter.execute();
 
