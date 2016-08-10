@@ -36,7 +36,7 @@ class WhenRunningSerenityFromTheCommandLine extends Specification {
         outputDirectory.toFile().list()
     }
 
-    def EXPECTED_HTML_OUTCOME = "02b74472aa1afb4d598628e3654604db.html"
+    def EXPECTED_HTML_OUTCOME = "e61d58640e6d9dd43926dd791a0eae07.html"
 
     def "should generate html test reports in the output directory"() {
         given:
@@ -47,6 +47,7 @@ class WhenRunningSerenityFromTheCommandLine extends Specification {
         new Serenity().executeWith("--source", sourceDirectory.toAbsolutePath().toString(),
                 "--destination", outputDirectory.toAbsolutePath().toString())
         then:
+
         assert outputDirectory.toFile().list().any {
             it -> it.endsWith(EXPECTED_HTML_OUTCOME)
         }

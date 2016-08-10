@@ -15,14 +15,4 @@ class WhenLoadingRequirementsFromAProvidedDirectoryStructure extends Specificati
         then:
             tagProvider.requirements.collect {it.name } as Set == ["Maintain my todo list","Record todos"] as Set
     }
-
-    def "should not load requirements from directories that don't contain feature or story files"() {
-        given:
-            def environmentVariables = new MockEnvironmentVariables()
-        when:
-            def tagProvider = new FileSystemRequirementsTagProvider(environmentVariables,
-                                                                    "src/test/resources/js-features")
-        then:
-            tagProvider.requirements.collect {it.name } as Set == ["Maintain my todo list","Record todos"] as Set
-    }
 }

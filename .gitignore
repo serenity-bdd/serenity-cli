@@ -7,3 +7,5 @@ target
 *.log
 serenity-cli.ipr
 serenity-cli.iws
+out
+site
