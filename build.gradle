@@ -152,60 +152,6 @@ publishing {
     }
 }
 
-//        mavenJava(MavenPublication) {
-//
-//            println "Publishing $project.name:$project.group:$project.version"
-//
-//            from components.java
-//
-//            artifact sourcesJar {
-//                classifier "sources"
-//            }
-//
-//            artifact javadocJar {
-//                classifier "javadoc"
-//            }
-//
-//            pom.withXml {
-//                asNode().children().last() + {
-//                    resolveStrategy = Closure.DELEGATE_FIRST
-//                    name "$project.name"
-//                    description "$projectDescription"
-//
-//                    url 'https://github.com/serenity-bdd/$project.name'
-//                    scm {
-//                        url 'scm:git:git@github.com:serenity-bdd/$project.name.git'
-//                        connection 'scm:git:git@github.com:serenity-bdd/$project.name.git'
-//                        developerConnection 'scm:git:git@github.com:serenity-bdd/$project.name.git'
-//                    }
-//                    licenses {
-//                        license {
-//                            name 'The Apache Software License, Version 2.0'
-//                            url 'http://www.apache.org/license/LICENSE-2.0.txt'
-//                            distribution 'repo'
-//                        }
-//                    }
-//                    developers {
-//                        developer {
-//                            id 'johnsmart'
-//                            name 'John Ferguson Smart'
-//                            email 'john.smart@wakaleo.com'
-//                        }
-//                    }
-//                }
-//                // Preserve compile-scope dependencies
-//                asNode().dependencies.'*'.findAll() {
-//                    it.scope.text() == 'runtime' && project.configurations.compile.allDependencies.find { dep ->
-//                        dep.name == it.artifactId.text()
-//                    }
-//                }.each() {
-//                    it.scope*.value = 'compile'
-//                }
-//            }
-//       }
- //   }
-//}
-
 uploadShadow {
     repositories {
         mavenDeployer {
@@ -215,47 +161,6 @@ uploadShadow {
         }
     }
 }
-//uploadArchives {
-//    repositories {
-//        mavenDeployer {
-//            pom.artifactId = 'serenity-cli'
-//            pom.project {
-//                name = project.name
-//                description = projectDescription
-//                licenses {
-//                    license {
-//                        name 'The Apache Software License, Version 2.0'
-//                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-//                        distribution 'repo'
-//                    }
-//                }
-//                url 'https://github.com/serenity-bdd/$project.name'
-//                scm {
-//                    url 'scm:git:git@github.com:serenity-bdd/$project.name.git'
-//                    connection 'scm:git:git@github.com:serenity-bdd/$project.name.git'
-//                    developerConnection 'scm:git:git@github.com:serenity-bdd/$project.name.git'
-//                }
-//                licenses {
-//                    license {
-//                        name 'The Apache Software License, Version 2.0'
-//                        url 'http://www.apache.org/license/LICENSE-2.0.txt'
-//                        distribution 'repo'
-//                    }
-//                }
-//                developers {
-//                    developer {
-//                        id 'johnsmart'
-//                        name 'John Ferguson Smart'
-//                        email 'john.smart@wakaleo.com'
-//                    }
-//                }
-//            }
-//            repository(url: bintrayBaseUrl + '/serenity/maven/serenity-cli') {
-//                authentication(userName: bintrayUsername, password: bintrayApiKey)
-//            }
-//        }
-//    }
-//}
 
 if (JavaVersion.current().isJava8Compatible()) {
     allprojects {
