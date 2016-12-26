@@ -36,7 +36,7 @@ class WhenRunningSerenityFromTheCommandLine extends Specification {
         outputDirectory.toFile().list()
     }
 
-    def EXPECTED_HTML_OUTCOME = "e61d58640e6d9dd43926dd791a0eae07.html"
+    def EXPECTED_HTML_OUTCOME = ".html"
 
     def "should generate html test reports in the output directory"() {
         given:
