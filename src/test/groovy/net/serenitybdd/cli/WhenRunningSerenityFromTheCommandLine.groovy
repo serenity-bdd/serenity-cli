@@ -5,9 +5,7 @@ import spock.lang.Specification
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
-/**
- * Created by john on 22/06/2016.
- */
+
 class WhenRunningSerenityFromTheCommandLine extends Specification {
 
     Path outputDirectory = Files.createTempDirectory("reports")

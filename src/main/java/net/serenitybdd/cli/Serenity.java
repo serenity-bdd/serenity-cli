@@ -69,6 +69,11 @@ public class Serenity {
             metaVar = "<directory>")
     Path requirementsDirectory = Paths.get("src/test/resources/features");
 
+    @Option(name = "--tags",
+            metaVar = "<string>")
+    String tags;
+
+
     private final PrintWriter printWriter;
 
 
@@ -107,7 +112,7 @@ public class Serenity {
                 Optional.fromNullable(project).or(workingDirectoryName()),
                 issueTrackerUrl,
                 jiraUrl, jiraProject, jiraUsername, jiraPassword, jiraWorkflowActive, jiraWorkflow,
-                requirementsDirectory.toAbsolutePath().toFile().toString());
+                requirementsDirectory.toAbsolutePath().toFile().toString(), tags);
 
         reporter.execute();
 

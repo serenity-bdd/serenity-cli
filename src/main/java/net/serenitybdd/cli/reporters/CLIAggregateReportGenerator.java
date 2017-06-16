@@ -2,9 +2,12 @@ package net.serenitybdd.cli.reporters;
 
 import net.thucydides.core.reports.html.HtmlAggregateStoryReporter;
 import net.thucydides.core.requirements.Requirements;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.IOException;
 import java.nio.file.Path;
+
+import static org.apache.commons.lang3.StringUtils.isBlank;
 
 public class CLIAggregateReportGenerator implements CLIReportGenerator {
 
@@ -17,6 +20,7 @@ public class CLIAggregateReportGenerator implements CLIReportGenerator {
     private final String jiraUsername;
     private final String jiraPassword;
     private final String requirementsDirectory;
+    private final String tags;
 
     public CLIAggregateReportGenerator(Path sourceDirectory,
                                         Path destinationDirectory,
@@ -26,7 +30,8 @@ public class CLIAggregateReportGenerator implements CLIReportGenerator {
                                         String jiraProject,
                                         String jiraUsername,
                                         String jiraPassword,
-                                        String requirementsDirectory) {
+                                        String requirementsDirectory,
+                                        String tags) {
         this.sourceDirectory = sourceDirectory;
         this.destinationDirectory = destinationDirectory;
         this.issueTrackerUrl = issueTrackerUrl;
@@ -36,6 +41,7 @@ public class CLIAggregateReportGenerator implements CLIReportGenerator {
         this.jiraPassword = jiraPassword;
         this.project = project;
         this.requirementsDirectory = requirementsDirectory;
+        this.tags = tags;
     }
 
     @Override
@@ -50,6 +56,12 @@ public class CLIAggregateReportGenerator implements CLIReportGenerator {
         reporter.setJiraProject(jiraProject);
         reporter.setJiraUsername(jiraUsername);
         reporter.setJiraPassword(jiraPassword);
+
+        reporter.setGenerateTestOutcomeReports();
+
+        if (!isBlank(tags)) {
+            reporter.setTags(tags);
+        }
 
         reporter.generateReportsForTestResultsFrom(sourceDirectory.toFile());
     }

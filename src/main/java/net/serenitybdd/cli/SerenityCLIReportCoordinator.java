@@ -29,17 +29,18 @@ public class SerenityCLIReportCoordinator {
                                         String jiraPassword,
                                         String jiraWorkflowActive,
                                         String jiraWorkflow,
-                                        String requirementsDirectory) {
+                                        String requirementsDirectory,
+                                        String tags) {
         this.sourceDirectory = sourceDirectory;
         this.destinationDirectory = destinationDirectory;
 
         reportGenerators.addAll(ImmutableList.of(
-                new CLIOutcomeReportGenerator(sourceDirectory, destinationDirectory, project, issueTrackerUrl,
-                        jiraUrl, jiraProject, jiraUsername, jiraPassword,
-                        requirementsDirectory),
+//                new CLIOutcomeReportGenerator(sourceDirectory, destinationDirectory, project, issueTrackerUrl,
+//                        jiraUrl, jiraProject, jiraUsername, jiraPassword,
+//                        requirementsDirectory),
                 new CLIAggregateReportGenerator(sourceDirectory, destinationDirectory, project, issueTrackerUrl,
                         jiraUrl, jiraProject, jiraUsername, jiraPassword,
-                        requirementsDirectory),
+                        requirementsDirectory, tags),
                 new CLIIssueTrackerUpdater(jiraWorkflow, jiraWorkflowActive)
         ));
     }
