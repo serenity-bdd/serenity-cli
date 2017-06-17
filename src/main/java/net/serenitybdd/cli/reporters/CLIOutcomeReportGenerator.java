@@ -77,7 +77,7 @@ public class CLIOutcomeReportGenerator implements CLIReportGenerator {
                 executor.execute(worker);
             }
         }
-        LOGGER.debug("Shutting down Test outcome reports generation");
+        LOGGER.info("Shutting down Test outcome reports generation");
         executor.shutdown();
         while (!executor.isTerminated()) {}
 

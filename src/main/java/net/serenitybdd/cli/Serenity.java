@@ -1,6 +1,5 @@
 package net.serenitybdd.cli;
 
-import com.google.common.base.Optional;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
@@ -109,7 +108,7 @@ public class Serenity {
 
         SerenityCLIReportCoordinator reporter = new SerenityCLIReportCoordinator(source,
                 destination,
-                Optional.fromNullable(project).or(workingDirectoryName()),
+                (project != null) ? project : workingDirectoryName(),
                 issueTrackerUrl,
                 jiraUrl, jiraProject, jiraUsername, jiraPassword, jiraWorkflowActive, jiraWorkflow,
                 requirementsDirectory.toAbsolutePath().toFile().toString(), tags);

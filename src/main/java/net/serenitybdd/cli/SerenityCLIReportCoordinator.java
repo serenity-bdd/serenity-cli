@@ -4,7 +4,6 @@ import com.beust.jcommander.internal.Lists;
 import com.google.common.collect.ImmutableList;
 import net.serenitybdd.cli.reporters.CLIAggregateReportGenerator;
 import net.serenitybdd.cli.reporters.CLIIssueTrackerUpdater;
-import net.serenitybdd.cli.reporters.CLIOutcomeReportGenerator;
 import net.serenitybdd.cli.reporters.CLIReportGenerator;
 
 import java.io.IOException;
