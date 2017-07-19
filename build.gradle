@@ -53,6 +53,7 @@ ext {
     groovyVersion = '2.4.11'
     junitVersion = '4.12'
     commonsCollectionsVersion = '3.2.2'
+    xmlApisVersion = '1.4.01'
 
     if (!project.hasProperty("bintrayUsername")) {
         bintrayUsername = 'wakaleo'
@@ -124,8 +125,9 @@ artifacts {
 
 configurations.all {
     resolutionStrategy {
-        failOnVersionConflict()
-        force  "commons-collections:commons-collections:${commonsCollectionsVersion}"
+      failOnVersionConflict()
+      force  "commons-collections:commons-collections:${commonsCollectionsVersion}"
+      force  "xml-apis:xml-apis:1.4.01:${xmlApisVersion}"
     }
 }
 
