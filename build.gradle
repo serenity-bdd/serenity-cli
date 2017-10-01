@@ -132,8 +132,12 @@ configurations.all {
 }
 
 dependencies {
-    compile("net.serenity-bdd:serenity-core:${project.serenityCoreVersion}")
-    compile("net.serenity-bdd:serenity-jira-plugin:${project.serenityJiraPluginVersion}")
+    compile("net.serenity-bdd:serenity-core:${project.serenityCoreVersion}") {
+        exclude module: "htmlunit-driver"
+    }
+    compile("net.serenity-bdd:serenity-jira-plugin:${project.serenityJiraPluginVersion}") {
+        exclude group: "net.serenity-bdd", module: "serenity-core"
+    }
     compile 'args4j:args4j:2.33'
     compile ("ch.qos.logback:logback-classic:1.1.7") {
         exclude group: "org.slf4j"
