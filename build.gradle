@@ -61,7 +61,7 @@ ext {
     if (!project.hasProperty("bintrayApiKey")) {
         bintrayApiKey = ''
     }
-    serenityCoreVersion = '1.6.1'
+    serenityCoreVersion = '1.6.9'
     serenityJiraPluginVersion =  '1.2.0'
 }
 
@@ -137,10 +137,6 @@ dependencies {
     }
     compile("net.serenity-bdd:serenity-jira-plugin:${project.serenityJiraPluginVersion}") {
         exclude group: "net.serenity-bdd", module: "serenity-core"
-    }
-    compile ('com.googlecode.lambdaj:lambdaj:2.3.3') {
-    exclude group:"org.objenesis"
-    exclude group:"cglib"
     }
     compile 'args4j:args4j:2.33'
     compile ("ch.qos.logback:logback-classic:1.1.7") {
