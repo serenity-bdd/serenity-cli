@@ -143,6 +143,11 @@ dependencies {
         exclude group: "org.slf4j"
     }
 
+    compile ('com.googlecode.lambdaj:lambdaj:2.3.3') {
+        exclude group:"org.objenesis"
+        exclude group:"cglib"
+    }
+
     testCompile('org.spockframework:spock-core:1.0-groovy-2.4') {
         exclude group: "junit"
         exclude group:"org.codehaus.groovy", module: "groovy-all"
