@@ -62,7 +62,7 @@ ext {
         bintrayApiKey = ''
     }
     serenityCoreVersion = '1.6.9'
-    serenityJiraPluginVersion =  '1.2.0'
+    serenityJiraPluginVersion =  '1.7.0'
 }
 
 task wrapper(type: Wrapper) {
