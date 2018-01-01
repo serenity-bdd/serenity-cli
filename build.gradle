@@ -62,7 +62,7 @@ ext {
         bintrayApiKey = ''
     }
     serenityCoreVersion = '1.8.17'
-    serenityJiraPluginVersion =  '1.7.0'
+    serenityJiraPluginVersion =  '1.8.0'
 }
 
 task wrapper(type: Wrapper) {
@@ -128,6 +128,8 @@ configurations.all {
       failOnVersionConflict()
       force  "commons-collections:commons-collections:${commonsCollectionsVersion}"
       force  "xml-apis:xml-apis:1.4.01:${xmlApisVersion}"
+      force  "com.google.code.gson:gson:2.8.2"
+      force  "commons-codec:commons-codec:1.10"
     }
 }
 
