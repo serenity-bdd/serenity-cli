@@ -126,7 +126,7 @@ artifacts {
 
 configurations.all {
     resolutionStrategy {
-        failOnVersionConflict()
+        //failOnVersionConflict()
         force "commons-collections:commons-collections:${commonsCollectionsVersion}"
         force "xml-apis:xml-apis:1.4.01:${xmlApisVersion}"
         force "com.google.code.gson:gson:2.8.2"
