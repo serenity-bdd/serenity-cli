@@ -136,7 +136,10 @@ configurations.all {
 }
 
 dependencies {
-    compile("net.serenity-bdd:serenity-core:${project.serenityCoreVersion}") {
+    compile("net.serenity-bdd:serenity-model:${project.serenityCoreVersion}") {
+        exclude module: "htmlunit-driver"
+    }
+    compile("net.serenity-bdd:serenity-reports:${project.serenityCoreVersion}") {
         exclude module: "htmlunit-driver"
     }
     compile("net.serenity-bdd:serenity-jira-plugin:${project.serenityJiraPluginVersion}") {
