@@ -1,6 +1,5 @@
 package net.serenitybdd.cli;
 
-import com.beust.jcommander.internal.Lists;
 import com.google.common.collect.ImmutableList;
 import net.serenitybdd.cli.reporters.CLIAggregateReportGenerator;
 import net.serenitybdd.cli.reporters.CLIIssueTrackerUpdater;
@@ -9,6 +8,7 @@ import net.serenitybdd.cli.reporters.CLIReportGenerator;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
 
 public class SerenityCLIReportCoordinator {
@@ -16,7 +16,7 @@ public class SerenityCLIReportCoordinator {
     private final Path sourceDirectory;
     private final Path destinationDirectory;
 
-    List<CLIReportGenerator> reportGenerators = Lists.newArrayList();
+    List<CLIReportGenerator> reportGenerators = new ArrayList<>();
 
     public SerenityCLIReportCoordinator(Path sourceDirectory,
                                         Path destinationDirectory,

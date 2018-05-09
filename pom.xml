@@ -5,11 +5,11 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>net.serenity-bdd</groupId>
     <artifactId>serenity-cli</artifactId>
-    <version>1.9.4</version>
+    <version>1.9.16</version>
     <packaging>jar</packaging>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <serenity.version>1.9.4</serenity.version>
+        <serenity.version>1.9.16</serenity.version>
         <java.version>1.8</java.version>
         <maven.core.version>3.5.0</maven.core.version>
         <maven.repoorting.version>3.0</maven.repoorting.version>
@@ -169,9 +169,33 @@
         </plugins>
     </build>
     <dependencies>
+        <!--<dependency>-->
+            <!--<groupId>net.serenity-bdd</groupId>-->
+            <!--<artifactId>serenity-core</artifactId>-->
+            <!--<version>${serenity.version}</version>-->
+            <!--<scope>compile</scope>-->
+            <!--<exclusions>-->
+                <!--<exclusion>-->
+                    <!--<groupId>org.seleniumhq.selenium</groupId>-->
+                    <!--<artifactId>htmlunit-driver</artifactId>-->
+                <!--</exclusion>-->
+            <!--</exclusions>-->
+        <!--</dependency>-->
         <dependency>
             <groupId>net.serenity-bdd</groupId>
-            <artifactId>serenity-core</artifactId>
+            <artifactId>serenity-reports</artifactId>
+            <version>${serenity.version}</version>
+            <scope>compile</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.seleniumhq.selenium</groupId>
+                    <artifactId>htmlunit-driver</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>net.serenity-bdd</groupId>
+            <artifactId>serenity-model</artifactId>
             <version>${serenity.version}</version>
             <scope>compile</scope>
             <exclusions>
