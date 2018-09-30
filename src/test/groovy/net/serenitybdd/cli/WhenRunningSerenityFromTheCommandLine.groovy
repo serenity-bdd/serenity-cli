@@ -90,8 +90,8 @@ class WhenRunningSerenityFromTheCommandLine extends Specification {
         new Serenity().executeWith("--source", sourceDirectory.toAbsolutePath().toString(),
                 "--destination", outputDirectory.toAbsolutePath().toString())
         then:
-        Path jqplotCss = Paths.get(outputDirectory.toFile().absolutePath, "jqplot/1.0.8/jquery.jqplot.min.css")
-        Path jqplotJS = Paths.get(outputDirectory.toFile().absolutePath, "jqplot/1.0.8/jquery.jqplot.min.js")
+        Path jqplotCss = Paths.get(outputDirectory.toFile().absolutePath, "bootstrap/css/bootstrap.min.css")
+        Path jqplotJS = Paths.get(outputDirectory.toFile().absolutePath, "bootstrap/css/bootstrap.min.css")
 
         jqplotCss.toFile().exists() && jqplotJS.toFile().exists()
     }
