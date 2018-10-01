@@ -62,7 +62,7 @@ ext {
     if (!project.hasProperty("bintrayApiKey")) {
         bintrayApiKey = ''
     }
-    serenityCoreVersion = '2.0.0'
+    serenityCoreVersion = '2.0.1'
     serenityJiraPluginVersion = '1.9.0'
 }
 
