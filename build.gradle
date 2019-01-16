@@ -26,7 +26,7 @@ apply plugin: 'org.ajoberstar.release-base'
 apply plugin: 'com.github.johnrengelman.shadow'
 
 release {
-    grgit = Grgit.open()
+    grgit = Grgit.open(file('.'))
     versionStrategy Strategies.FINAL
     versionStrategy Strategies.PRE_RELEASE
     defaultVersionStrategy Strategies.SNAPSHOT
@@ -63,7 +63,7 @@ ext {
         bintrayApiKey = ''
     }
     serenityCoreVersion = '2.0.33'
-    serenityJiraPluginVersion = '2.0.33'
+    serenityJiraPluginVersion = '1.11.0'
 }
 
 task wrapper(type: Wrapper) {
