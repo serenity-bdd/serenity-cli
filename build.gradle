@@ -51,7 +51,7 @@ ext {
     bintrayRepository = 'maven'
     bintrayPackage = 'serenity-cli'
     projectDescription = 'Serenity CLI'
-    groovyVersion = '2.4.11'
+    groovyVersion = '2.5.5'
     junitVersion = '4.12'
     commonsCollectionsVersion = '3.2.2'
     xmlApisVersion = '1.4.01'
@@ -62,8 +62,8 @@ ext {
     if (!project.hasProperty("bintrayApiKey")) {
         bintrayApiKey = ''
     }
-    serenityCoreVersion = '2.0.12'
-    serenityJiraPluginVersion = '1.9.0'
+    serenityCoreVersion = '2.0.33'
+    serenityJiraPluginVersion = '2.0.33'
 }
 
 task wrapper(type: Wrapper) {
