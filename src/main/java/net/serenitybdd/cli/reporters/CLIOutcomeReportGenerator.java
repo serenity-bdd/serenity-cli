@@ -63,15 +63,11 @@ public class CLIOutcomeReportGenerator implements CLIReportGenerator {
 
         try (TestOutcomeStream stream = TestOutcomeStream.testOutcomesInDirectory(sourceDirectory)) {
             for (final TestOutcome outcome : stream) {
-                Runnable worker = new Runnable() {
-
-                    @Override
-                    public void run() {
-                        try {
-                            reporter.generateReportFor(outcome);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
+                Runnable worker = () -> {
+                    try {
+                        reporter.generateReportFor(outcome);
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
                 };
                 executor.execute(worker);
