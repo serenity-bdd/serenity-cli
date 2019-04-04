@@ -9,7 +9,8 @@ buildscript {
     dependencies {
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7'
         classpath 'org.ajoberstar:gradle-git:1.4.0-rc.1'
-        classpath 'com.github.jengelman.gradle.plugins:shadow:1.2.3'
+        classpath 'com.github.jengelman.gradle.plugins:shadow:5.0.0'
+//      classpath 'com.github.jengelman.gradle.plugins:shadow:1.2.3'
     }
 }
 
@@ -62,13 +63,13 @@ ext {
     if (!project.hasProperty("bintrayApiKey")) {
         bintrayApiKey = ''
     }
-    serenityCoreVersion = '2.0.41'
-    serenityJiraPluginVersion = '1.11.0'
+    serenityCoreVersion = '2.0.42'
+    serenityJiraPluginVersion = '1.12.0'
 }
 
-task wrapper(type: Wrapper) {
-    gradleVersion = '4.0'
-}
+//task wrapper(type: Wrapper) {
+//    gradleVersion = '4.0'
+//}
 
 bintrayBaseUrl + '/serenity/maven/serenity-cli'
 
@@ -163,6 +164,47 @@ dependencies {
 
 publishing {
     publications {
+        shadow(MavenPublication) { publication ->
+          project.shadow.component(publication)
+
+          pom.withXml {
+              asNode().children().last() + {
+                  resolveStrategy = Closure.DELEGATE_FIRST
+                  name 'serenity-cli'
+                  description 'Serenity CLI'
+
+                  url 'https://github.com/serenity-bdd/serenity-cli'
+                  scm {
+                      url 'scm:git:git@github.com:serenity-bdd/serenity-cli.git'
+                      connection 'scm:git:git@github.com:serenity-bdd/serenity-cli.git'
+                      developerConnection 'scm:git:git@github.com:serenity-bdd/serenity-cli.git'
+                  }
+                  licenses {
+                      license {
+                          name 'The Apache Software License, Version 2.0'
+                          url 'http://www.apache.org/license/LICENSE-2.0.txt'
+                          distribution 'repo'
+                      }
+                  }
+                  developers {
+                      developer {
+                          id 'johnsmart'
+                          name 'John Ferguson Smart'
+                          email 'john.smart@wakaleo.com'
+                      }
+                  }
+              }
+              // Preserve compile-scope dependencies
+              asNode().dependencies.'*'.findAll() {
+                  it.scope.text() == 'runtime' && project.configurations.compile.allDependencies.find { dep ->
+                      dep.name == it.artifactId.text()
+                  }
+              }.each() {
+                  it.scope*.value = 'compile'
+              }
+          }
+        }
+/*
         shadow(MavenPublication) {
             from components.shadow
 
@@ -203,7 +245,7 @@ publishing {
                 }
             }
         }
-
+*/
         mavenJava(MavenPublication) {
 
             println "Publishing $project.name:$project.group:$project.version"
