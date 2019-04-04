@@ -67,7 +67,7 @@ class WhenRunningSerenityFromTheCommandLine extends Specification {
     def "should generate requirements test reports in the output directory"() {
         given:
         Path sourceDirectory = Paths.get("src/test/resources/test-outcomes")
-        Path featureDirectory = Paths.get("src/test/resources/js_features")
+        Path featureDirectory = Paths.get("src/test/resources/featuresdir")
         assert outputDirectory.toFile().list().length == 0
 
         when:
@@ -77,9 +77,9 @@ class WhenRunningSerenityFromTheCommandLine extends Specification {
         )
         then:
         outputDirectory.resolve("capabilities.html").toFile().exists()
-        outputDirectory.resolve("capabilities.html").toFile().text.contains("Maintain my todo list")
-        outputDirectory.resolve("capabilities.html").toFile().text.contains("Record todos")
-    }
+        outputDirectory.resolve("capabilities.html").toFile().text.contains("Remember things to do")
+"" +
+        "git push"    }
 
     def "should copy report resources to the output directory"() {
         given:
