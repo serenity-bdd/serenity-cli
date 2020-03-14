@@ -9,14 +9,14 @@
     <packaging>jar</packaging>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <serenity.version>1.9.40</serenity.version>
+        <serenity.version>2.1.13</serenity.version>
         <java.version>1.8</java.version>
         <maven.core.version>3.5.0</maven.core.version>
         <maven.repoorting.version>3.0</maven.repoorting.version>
         <maven.plugin.version>3.5</maven.plugin.version>
         <junit.version>4.12</junit.version>
         <hamcrest.version>1.3</hamcrest.version>
-        <mokito.version>1.10.19</mokito.version>
+        <mockito.version>1.10.19</mockito.version>
         <assertj.version>3.6.2</assertj.version>
     </properties>
 
@@ -231,7 +231,7 @@
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-all</artifactId>
-            <version>${mokito.version}</version>
+            <version>${mockito.version}</version>
             <scope>test</scope>
             <exclusions>
                 <exclusion>
