@@ -55,11 +55,11 @@ public class Serenity {
             metaVar = "<string>")
     String jiraPassword;
 
-    @Option(name = "-jiraWorkflow",
+    @Option(name = "--jiraWorkflow",
             metaVar = "<string>")
     String jiraWorkflow;
 
-    @Option(name = "-jiraWorkflowActive",
+    @Option(name = "--jiraWorkflowActive",
             metaVar = "<string>")
     String jiraWorkflowActive;
 
