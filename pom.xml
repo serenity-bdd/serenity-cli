@@ -9,7 +9,7 @@
     <packaging>jar</packaging>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <serenity.version>2.1.13</serenity.version>
+        <serenity.version>2.2.9</serenity.version>
         <java.version>1.8</java.version>
         <maven.core.version>3.5.0</maven.core.version>
         <maven.repoorting.version>3.0</maven.repoorting.version>
@@ -105,7 +105,7 @@
                     <includes>
                         <include>**/When*.java</include>
                         <include>**/*Test/*.java</include>
-                    </includes>vi
+                    </includes>
                     <parallel>classes</parallel>
                     <threadCount>4</threadCount>
                 </configuration>
