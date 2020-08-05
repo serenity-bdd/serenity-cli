@@ -52,7 +52,7 @@ ext {
     bintrayRepository = 'maven'
     bintrayPackage = 'serenity-cli'
     projectDescription = 'Serenity CLI'
-    groovyVersion = '2.5.5'
+    groovyVersion = '3.0.3'
     junitVersion = '4.12'
     commonsCollectionsVersion = '3.2.2'
     xmlApisVersion = '1.4.01'
@@ -106,8 +106,11 @@ jar {
     println "Publishing $project.name:$project.group:$project.version"
 
     manifest {
-        attributes("Implementation-Title": "Serenity CLI Plugin",
-                "Implementation-Version": project.version.toString())
+        attributes(
+            "Implementation-Title": "Serenity CLI Plugin",
+            "Implementation-Version": project.version.toString(),
+            'Main-Class': mainClassName
+        )
     }
 }
 
@@ -156,9 +159,14 @@ dependencies {
         exclude group: "cglib"
     }
 
-    testCompile('org.spockframework:spock-core:1.0-groovy-2.4') {
+    testCompile('org.spockframework:spock-core:2.0-M3-groovy-3.0') {
         exclude group: "junit"
         exclude group: "org.codehaus.groovy", module: "groovy-all"
+    }
+
+    compile ('org.codehaus.groovy:groovy-all:3.0.3'){
+        exclude module: 'groovy-jaxb';
+        exclude module: 'groovy-xml';
     }
 }
 
