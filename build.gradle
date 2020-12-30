@@ -53,7 +53,7 @@ ext {
     bintrayPackage = 'serenity-cli'
     projectDescription = 'Serenity CLI'
     groovyVersion = '3.0.3'
-    junitVersion = '4.12'
+    junitVersion = '4.13.1'
     commonsCollectionsVersion = '3.2.2'
     xmlApisVersion = '1.4.01'
 
@@ -63,7 +63,7 @@ ext {
     if (!project.hasProperty("bintrayApiKey")) {
         bintrayApiKey = ''
     }
-    serenityCoreVersion = '2.2.9'
+    serenityCoreVersion = '2.3.10'
     serenityJiraPluginVersion = '1.12.0'
 }
 
